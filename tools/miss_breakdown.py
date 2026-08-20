@@ -40,11 +40,18 @@ def main() -> int:
             if best < args.threshold:
                 rows.append((rf.file_name, rp.cls, int(rm.sum()), best))
 
-    unseen = [r for r in rows if r[3] == 0.0]
-    diverged = [r for r in rows if r[3] > 0.0]
+    # Нулевое пересечение не годится как признак «не размечен»: мелкий объект,
+    # попавший внутрь чужого крупного контура, даёт IoU около 0.01, а размечен
+    # он при этом не был. Граница по IoU 0.1 разделяет случаи честнее.
+    unseen = [r for r in rows if r[3] < 0.1]
+    diverged = [r for r in rows if r[3] >= 0.1]
     print(f'непокрытых эталонных объектов: {len(rows)} (порог {args.threshold})')
-    print(f'  не увиден вовсе, пересечение 0: {len(unseen)}')
-    print(f'  контур разошёлся, 0 < IoU < {args.threshold}: {len(diverged)}')
+    print(f'  объект не размечен, IoU < 0.1: {len(unseen)}')
+    print(f'  контур разошёлся, 0.1 <= IoU < {args.threshold}: {len(diverged)}')
+    if unseen:
+        areas = sorted(r[2] for r in unseen)
+        print(f'  площадь неразмеченных: медиана {areas[len(areas) // 2]} px, '
+              f'мельче 500 px: {sum(1 for x in areas if x < 500)} из {len(areas)}')
     if unseen:
         print('  классы непойманных:', collections.Counter(r[1] for r in unseen).most_common())
 
