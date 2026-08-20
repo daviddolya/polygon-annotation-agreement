@@ -1,0 +1,451 @@
+[
+  {
+    "frame": "000000306893.jpg",
+    "image": "reports/pairs/01_000000306893.jpg",
+    "order": 1,
+    "matched": 2,
+    "extra": 2,
+    "missing": 9,
+    "weak": 0,
+    "missing_classes": [
+      "person",
+      "person",
+      "person",
+      "person",
+      "person",
+      "person",
+      "person",
+      "person",
+      "person"
+    ],
+    "missing_areas": [
+      379,
+      114,
+      109,
+      62,
+      119,
+      34,
+      52,
+      41,
+      55
+    ],
+    "extra_classes": [
+      "bus",
+      "bus"
+    ],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000070774.jpg",
+    "image": "reports/pairs/02_000000070774.jpg",
+    "order": 2,
+    "matched": 3,
+    "extra": 1,
+    "missing": 1,
+    "weak": 3,
+    "missing_classes": [
+      "bicycle"
+    ],
+    "missing_areas": [
+      3725
+    ],
+    "extra_classes": [
+      "bicycle"
+    ],
+    "weak_scores": [
+      0.78,
+      0.77,
+      0.53
+    ]
+  },
+  {
+    "frame": "000000081394.jpg",
+    "image": "reports/pairs/03_000000081394.jpg",
+    "order": 3,
+    "matched": 4,
+    "extra": 0,
+    "missing": 2,
+    "weak": 2,
+    "missing_classes": [
+      "car",
+      "motorcycle"
+    ],
+    "missing_areas": [
+      491,
+      540
+    ],
+    "extra_classes": [],
+    "weak_scores": [
+      0.76,
+      0.7
+    ]
+  },
+  {
+    "frame": "000000245173.jpg",
+    "image": "reports/pairs/04_000000245173.jpg",
+    "order": 4,
+    "matched": 1,
+    "extra": 2,
+    "missing": 1,
+    "weak": 1,
+    "missing_classes": [
+      "bicycle"
+    ],
+    "missing_areas": [
+      921
+    ],
+    "extra_classes": [
+      "bicycle",
+      "bicycle"
+    ],
+    "weak_scores": [
+      0.69
+    ]
+  },
+  {
+    "frame": "000000251140.jpg",
+    "image": "reports/pairs/05_000000251140.jpg",
+    "order": 5,
+    "matched": 2,
+    "extra": 1,
+    "missing": 2,
+    "weak": 1,
+    "missing_classes": [
+      "bicycle",
+      "person"
+    ],
+    "missing_areas": [
+      2695,
+      3699
+    ],
+    "extra_classes": [
+      "person"
+    ],
+    "weak_scores": [
+      0.7
+    ]
+  },
+  {
+    "frame": "000000292456.jpg",
+    "image": "reports/pairs/06_000000292456.jpg",
+    "order": 6,
+    "matched": 2,
+    "extra": 2,
+    "missing": 2,
+    "weak": 0,
+    "missing_classes": [
+      "person",
+      "person"
+    ],
+    "missing_areas": [
+      5699,
+      2139
+    ],
+    "extra_classes": [
+      "person",
+      "person"
+    ],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000007386.jpg",
+    "image": "reports/pairs/07_000000007386.jpg",
+    "order": 7,
+    "matched": 1,
+    "extra": 0,
+    "missing": 3,
+    "weak": 0,
+    "missing_classes": [
+      "bicycle",
+      "bicycle",
+      "truck"
+    ],
+    "missing_areas": [
+      2395,
+      1641,
+      5242
+    ],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000256941.jpg",
+    "image": "reports/pairs/08_000000256941.jpg",
+    "order": 8,
+    "matched": 1,
+    "extra": 1,
+    "missing": 1,
+    "weak": 1,
+    "missing_classes": [
+      "bicycle"
+    ],
+    "missing_areas": [
+      9508
+    ],
+    "extra_classes": [
+      "bicycle"
+    ],
+    "weak_scores": [
+      0.66
+    ]
+  },
+  {
+    "frame": "000000013177.jpg",
+    "image": "reports/pairs/09_000000013177.jpg",
+    "order": 9,
+    "matched": 2,
+    "extra": 1,
+    "missing": 1,
+    "weak": 0,
+    "missing_classes": [
+      "bicycle"
+    ],
+    "missing_areas": [
+      13846
+    ],
+    "extra_classes": [
+      "motorcycle"
+    ],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000226903.jpg",
+    "image": "reports/pairs/10_000000226903.jpg",
+    "order": 10,
+    "matched": 2,
+    "extra": 1,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [
+      "bicycle"
+    ],
+    "weak_scores": [
+      0.8
+    ]
+  },
+  {
+    "frame": "000000273551.jpg",
+    "image": "reports/pairs/11_000000273551.jpg",
+    "order": 11,
+    "matched": 3,
+    "extra": 1,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [
+      "motorcycle"
+    ],
+    "weak_scores": [
+      0.72
+    ]
+  },
+  {
+    "frame": "000000355817.jpg",
+    "image": "reports/pairs/12_000000355817.jpg",
+    "order": 12,
+    "matched": 2,
+    "extra": 0,
+    "missing": 1,
+    "weak": 1,
+    "missing_classes": [
+      "person"
+    ],
+    "missing_areas": [
+      542
+    ],
+    "extra_classes": [],
+    "weak_scores": [
+      0.68
+    ]
+  },
+  {
+    "frame": "000000458223.jpg",
+    "image": "reports/pairs/13_000000458223.jpg",
+    "order": 13,
+    "matched": 1,
+    "extra": 1,
+    "missing": 1,
+    "weak": 0,
+    "missing_classes": [
+      "bicycle"
+    ],
+    "missing_areas": [
+      997
+    ],
+    "extra_classes": [
+      "bicycle"
+    ],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000192699.jpg",
+    "image": "reports/pairs/14_000000192699.jpg",
+    "order": 14,
+    "matched": 4,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.77
+    ]
+  },
+  {
+    "frame": "000000341469.jpg",
+    "image": "reports/pairs/15_000000341469.jpg",
+    "order": 15,
+    "matched": 3,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.65
+    ]
+  },
+  {
+    "frame": "000000473118.jpg",
+    "image": "reports/pairs/16_000000473118.jpg",
+    "order": 16,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.74
+    ]
+  },
+  {
+    "frame": "000000513580.jpg",
+    "image": "reports/pairs/17_000000513580.jpg",
+    "order": 17,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.75
+    ]
+  },
+  {
+    "frame": "000000551794.jpg",
+    "image": "reports/pairs/18_000000551794.jpg",
+    "order": 18,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.69
+    ]
+  },
+  {
+    "frame": "000000578792.jpg",
+    "image": "reports/pairs/19_000000578792.jpg",
+    "order": 19,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": [
+      0.73
+    ]
+  },
+  {
+    "frame": "000000010363.jpg",
+    "image": "reports/pairs/20_000000010363.jpg",
+    "order": 20,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000102356.jpg",
+    "image": "reports/pairs/21_000000102356.jpg",
+    "order": 21,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000152120.jpg",
+    "image": "reports/pairs/22_000000152120.jpg",
+    "order": 22,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000472623.jpg",
+    "image": "reports/pairs/23_000000472623.jpg",
+    "order": 23,
+    "matched": 4,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000492937.jpg",
+    "image": "reports/pairs/24_000000492937.jpg",
+    "order": 24,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  },
+  {
+    "frame": "000000546976.jpg",
+    "image": "reports/pairs/25_000000546976.jpg",
+    "order": 25,
+    "matched": 2,
+    "extra": 0,
+    "missing": 0,
+    "weak": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
+    "weak_scores": []
+  }
+]
