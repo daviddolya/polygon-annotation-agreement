@@ -157,3 +157,38 @@ def match_polys(mine: list[Poly], ref: list[Poly], masks_mine: list[np.ndarray],
     extra = [i for i in range(len(mine)) if i not in used_mine]
     missing = [j for j in range(len(ref)) if j not in used_ref]
     return pairs, extra, missing
+
+
+def split_pairs(mine: list[Poly], ref: list[Poly], masks_mine: list[np.ndarray],
+                masks_ref: list[np.ndarray], extra: list[int], missing: list[int],
+                floor: float = 0.1):
+    """Разорванные пары: один объект, посчитанный дважды.
+
+    Если контуры разошлись сильнее порога сопоставления, пара не матчится и объект
+    попадает в отчёт и как «пропущено», и как «лишнее». Это поведение порога, а не
+    ошибка разметки, но по двум отдельным числам его не видно.
+
+    Связывает оставшиеся объекты жадно по убыванию mask IoU, беря только пары выше
+    `floor`. Нижняя граница нужна, чтобы мелкий эталонный объект, случайно попавший
+    внутрь чужого крупного контура, не был объявлен парой: такие дают IoU около 0.01,
+    а настоящие разорванные пары — от 0.2.
+
+    Возвращает `(splits, extra, missing)`, где списки уже без вошедших в пары.
+    """
+    candidates = sorted(
+        ((mask_iou(masks_mine[i], masks_ref[j]), i, j) for i in extra for j in missing),
+        key=lambda t: -t[0])
+    used_mine: set[int] = set()
+    used_ref: set[int] = set()
+    splits = []
+    for score, i, j in candidates:
+        if score < floor:
+            break
+        if i in used_mine or j in used_ref:
+            continue
+        used_mine.add(i)
+        used_ref.add(j)
+        splits.append((i, j, score))
+    return (splits,
+            [i for i in extra if i not in used_mine],
+            [j for j in missing if j not in used_ref])

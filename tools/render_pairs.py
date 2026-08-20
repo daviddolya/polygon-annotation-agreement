@@ -24,11 +24,12 @@ from PIL import Image, ImageDraw
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "common"))
 
 from polygons import (CLASSES, load_coco_polygons, match_polys,  # noqa: E402
-                      rasterize)
+                      rasterize, split_pairs)
 from render_polygons import MINE_COLOR, REF_COLOR, draw_poly, load_font  # noqa: E402
 
 MISS_COLOR = (214, 39, 40)      # красный: объект есть у одного и нет у другого
 WEAK_COLOR = (230, 159, 0)      # янтарный: пара нашлась, но контур разошёлся
+SPLIT_COLOR = (148, 103, 189)   # фиолетовый: пара разорвана порогом
 BAR_BG = (255, 255, 255)
 BAR_FG = (0, 0, 0)
 TITLE_H = 26
@@ -125,7 +126,8 @@ def label_defect(draw, item, occupied, font):
               fill=(255, 255, 255), font=font)
 
 
-def build_pair(base, frame, reference, pairs, extra, missing, low_iou, font_small, font_bar):
+def build_pair(base, frame, reference, pairs, extra, missing, low_iou, splits,
+               font_small, font_bar):
     w, h = base.width, base.height
     canvas = Image.new("RGB", (w * 2 + GUTTER, TITLE_H + h + FOOT_H), BAR_BG)
     canvas.paste(base, (0, TITLE_H))
@@ -159,6 +161,14 @@ def build_pair(base, frame, reference, pairs, extra, missing, low_iou, font_smal
         items_right.append(mark_defect(draw, frame.polys[i], f"IoU {score:.2f}",
                                        WEAK_COLOR, occ_right, right,
                                        (w + GUTTER, TITLE_H)))
+    for i, j, score in splits:
+        r_cls, m_cls = reference.polys[j].cls, frame.polys[i].cls
+        tag = (f"split: IoU {score:.2f}" if r_cls == m_cls
+               else f"split: {r_cls}->{m_cls}, IoU {score:.2f}")
+        items_left.append(mark_defect(draw, reference.polys[j], tag, SPLIT_COLOR,
+                                      occ_left, left, (0, TITLE_H)))
+        items_right.append(mark_defect(draw, frame.polys[i], tag, SPLIT_COLOR,
+                                       occ_right, right, (w + GUTTER, TITLE_H)))
     for item in items_left + items_right:
         label_defect(draw, item, occ_left if item[3] is left else occ_right, font_small)
     return canvas, draw
@@ -185,6 +195,10 @@ def main() -> int:
     ap.add_argument("--low-iou", type=float, default=0.8,
                     help="сматченная пара ниже этого считается слабой")
     ap.add_argument("--quality", type=int, default=85)
+    ap.add_argument("--split-floor", type=float, default=0.1,
+                    help="ниже этого IoU объекты не считаются одной разорванной парой")
+    ap.add_argument("--keep-order", type=Path, default=None,
+                    help="манифест прошлого прогона: сохранить прежние номера файлов")
     ap.add_argument("--manifest", type=Path, default=None,
                     help="куда сложить JSON с составом дефектов для build_readme.py")
     args = ap.parse_args()
@@ -204,27 +218,40 @@ def main() -> int:
         pairs, extra, missing = match_polys(frame.polys, ref[name].polys, mm, mr,
                                             args.iou_threshold)
         low = [(i, j, s) for i, j, s in pairs if s < args.low_iou]
+        # Разорванная пара — один объект, а не пропуск плюс лишний. На картинке она
+        # подписывается один раз своим цветом, иначе кадр говорит неправду.
+        splits, extra, missing = split_pairs(frame.polys, ref[name].polys, mm, mr,
+                                             extra, missing, args.split_floor)
         areas = {j: int(mr[j].sum()) for j in missing}
-        rows.append((name, frame, ref[name], pairs, extra, missing, low, areas))
+        rows.append((name, frame, ref[name], pairs, extra, missing, low, splits, areas))
 
-    rows.sort(key=lambda r: -(len(r[4]) + len(r[5]) + len(r[6])))
+    rows.sort(key=lambda r: -(len(r[4]) + len(r[5]) + len(r[6]) + len(r[7])))
+    if args.keep_order and args.keep_order.exists():
+        # Номера файлов заморожены по прежнему манифесту: так в git меняются только
+        # те картинки, у которых поменялось содержимое, а не все 25 из-за сдвига.
+        frozen = {e["frame"]: e["order"]
+                  for e in json.loads(args.keep_order.read_text(encoding="utf-8"))}
+        rows.sort(key=lambda r: frozen.get(r[0], 10_000))
     args.out.mkdir(parents=True, exist_ok=True)
     manifest = []
 
-    for order, (name, frame, reference, pairs, extra, missing, low, areas) in enumerate(rows, 1):
+    for order, (name, frame, reference, pairs, extra, missing, low, splits,
+                areas) in enumerate(rows, 1):
         src = args.images / name
         if not src.exists():
             print(f"пропущен {name}: нет файла в {args.images}")
             continue
         base = Image.open(src).convert("RGB")
-        n_labels = max(len(missing) + len(low), len(extra) + len(low))
+        n_labels = max(len(missing), len(extra)) + len(low) + len(splits)
         font_small = load_font(10 if n_labels > 6 else 11)
         canvas, draw = build_pair(base, frame, reference, pairs, extra, missing,
-                                  low, font_small, font_bar)
+                                  low, splits, font_small, font_bar)
         counts = f"matched {len(pairs)} · extra {len(extra)} · missed {len(missing)}"
         if low:
             counts += f" · weak {len(low)}"
-        if not extra and not missing and not low:
+        if splits:
+            counts += f" · split {len(splits)}"
+        if not extra and not missing and not low and not splits:
             counts += " · no defects"
         draw.text((6, canvas.height - FOOT_H + 6), f"{name} · {counts}",
                   fill=BAR_FG, font=font_bar)
@@ -233,7 +260,11 @@ def main() -> int:
         manifest.append({
             "frame": name, "image": str(args.out / out_name), "order": order,
             "matched": len(pairs), "extra": len(extra), "missing": len(missing),
-            "weak": len(low),
+            "weak": len(low), "split": len(splits),
+            "split_scores": [round(s, 2) for _, _, s in splits],
+            "split_class_mismatch": sum(
+                1 for i, j, _ in splits
+                if frame.polys[i].cls != reference.polys[j].cls),
             "missing_classes": [reference.polys[j].cls for j in missing],
             "missing_areas": [areas[j] for j in missing],
             "extra_classes": [frame.polys[i].cls for i in extra],
@@ -243,7 +274,8 @@ def main() -> int:
     if args.manifest:
         args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                                  encoding="utf-8")
-    clean = sum(1 for m in manifest if not (m["extra"] or m["missing"] or m["weak"]))
+    clean = sum(1 for m in manifest
+                if not (m["extra"] or m["missing"] or m["weak"] or m["split"]))
     print(f"{len(manifest)} pairs -> {args.out} (чистых {clean})")
     return 0
 

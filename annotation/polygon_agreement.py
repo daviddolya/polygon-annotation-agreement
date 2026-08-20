@@ -33,7 +33,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "common"))
 
 from agreement import cohens_kappa  # noqa: E402
 from polygons import (CLASSES, boundary_distance, boundary_iou, dice,  # noqa: E402
-                      load_coco_polygons, mask_iou, match_polys, rasterize)
+                      load_coco_polygons, mask_iou, match_polys, rasterize,
+                      split_pairs)
 
 
 def main() -> int:
@@ -46,6 +47,9 @@ def main() -> int:
     p.add_argument("--boundary-ratio", type=float, default=0.02,
                    help="ширина полосы границы как доля диагонали кадра")
     p.add_argument("--classes", nargs="*", default=CLASSES)
+    p.add_argument("--split-floor", type=float, default=0.1,
+                   help="нижняя граница mask IoU, ниже которой несопоставленные "
+                        "объекты не считаются одной разорванной парой")
     args = p.parse_args()
 
     keep = set(args.classes)
@@ -59,7 +63,7 @@ def main() -> int:
         raise SystemExit("в своей разметке нет ни одного полигона — проверь формат экспорта")
 
     totals = Counter()
-    ious, dices, bious = [], [], []
+    ious, dices, bious, split_ious = [], [], [], []
     label_pairs: list[tuple[str, str]] = []
     per_class_iou = defaultdict(list)
     per_class_biou = defaultdict(list)
@@ -101,6 +105,24 @@ def main() -> int:
                 per_class[r.cls]["mismatching_label"] += 1
                 if len(examples[f"mismatch:{r.cls}->{m.cls}"]) < 5:
                     examples[f"mismatch:{r.cls}->{m.cls}"].append(name)
+        # Разорванные пары: объект размечен обеими сторонами, но контуры разошлись
+        # сильнее порога, и он попадает в отчёт дважды — как пропуск и как лишний.
+        # Порог не двигается и суммы missing/extra не уменьшаются: это по-прежнему
+        # метрика при пороге 0.5. Меняется только то, что дополнительно видно.
+        splits, thin_extra, thin_missing = split_pairs(
+            frame.polys, ref.polys, masks_mine, masks_ref, extra, missing,
+            args.split_floor)
+        totals["extra_after_split"] += len(thin_extra)
+        totals["missing_after_split"] += len(thin_missing)
+        for i, j, score in splits:
+            totals["split"] += 1
+            split_ious.append(score)
+            if frame.polys[i].cls != ref.polys[j].cls:
+                totals["split_mismatch"] += 1
+                key = f"split:{ref.polys[j].cls}->{frame.polys[i].cls}"
+                if len(examples[key]) < 5:
+                    examples[key].append(name)
+
         for i in extra:
             totals["extra"] += 1
             per_class[frame.polys[i].cls]["extra"] += 1
@@ -128,6 +150,12 @@ def main() -> int:
         "mismatching_label": totals["mismatch"],
         "missing_annotation": totals["missing"],
         "extra_annotation": totals["extra"],
+        "split_pairs": totals["split"],
+        "split_pairs_mean_iou": mean(split_ious) if split_ious else None,
+        "split_class_mismatch": totals["split_mismatch"],
+        "split_floor": args.split_floor,
+        "missing_after_split": totals["missing_after_split"],
+        "extra_after_split": totals["extra_after_split"],
         "error_rate": errors / totals["reference"] if totals["reference"] else None,
         "mean_mask_iou": mean(ious),
         "mean_dice": mean(dices),
@@ -153,6 +181,15 @@ def main() -> int:
           f"в эталоне {totals['reference']}")
     print(f"сопоставлено {totals['matched']}, из них с другой меткой {totals['mismatch']}")
     print(f"пропущено {totals['missing']}, лишних {totals['extra']}")
+    if totals["split"]:
+        print(f"  из них {totals['split']} разорванных пар: один объект, посчитанный "
+              f"дважды (mask IoU {mean(split_ious):.2f} в среднем, порог "
+              f"{args.iou_threshold})")
+        print(f"  за их вычетом: пропущено {totals['missing_after_split']}, "
+              f"лишних {totals['extra_after_split']}")
+        if totals["split_mismatch"]:
+            print(f"  ошибок класса внутри разорванных пар {totals['split_mismatch']} "
+                  f"— в kappa они не попали, пара не сматчилась")
     print(f"mask IoU {mean(ious):.3f} | Dice {mean(dices):.3f} | "
           f"Boundary IoU {mean(bious):.3f} | kappa {kappa:.3f}")
     print("вершин на объект (мои / эталон):")

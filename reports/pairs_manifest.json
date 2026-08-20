@@ -7,6 +7,9 @@
     "extra": 2,
     "missing": 9,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [
       "person",
       "person",
@@ -40,18 +43,17 @@
     "image": "reports/pairs/02_000000070774.jpg",
     "order": 2,
     "matched": 3,
-    "extra": 1,
-    "missing": 1,
+    "extra": 0,
+    "missing": 0,
     "weak": 3,
-    "missing_classes": [
-      "bicycle"
+    "split": 1,
+    "split_scores": [
+      0.49
     ],
-    "missing_areas": [
-      3725
-    ],
-    "extra_classes": [
-      "bicycle"
-    ],
+    "split_class_mismatch": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
     "weak_scores": [
       0.78,
       0.77,
@@ -66,6 +68,9 @@
     "extra": 0,
     "missing": 2,
     "weak": 2,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [
       "car",
       "motorcycle"
@@ -85,17 +90,17 @@
     "image": "reports/pairs/04_000000245173.jpg",
     "order": 4,
     "matched": 1,
-    "extra": 2,
-    "missing": 1,
+    "extra": 1,
+    "missing": 0,
     "weak": 1,
-    "missing_classes": [
-      "bicycle"
+    "split": 1,
+    "split_scores": [
+      0.36
     ],
-    "missing_areas": [
-      921
-    ],
+    "split_class_mismatch": 0,
+    "missing_classes": [],
+    "missing_areas": [],
     "extra_classes": [
-      "bicycle",
       "bicycle"
     ],
     "weak_scores": [
@@ -107,20 +112,21 @@
     "image": "reports/pairs/05_000000251140.jpg",
     "order": 5,
     "matched": 2,
-    "extra": 1,
-    "missing": 2,
+    "extra": 0,
+    "missing": 1,
     "weak": 1,
+    "split": 1,
+    "split_scores": [
+      0.35
+    ],
+    "split_class_mismatch": 0,
     "missing_classes": [
-      "bicycle",
-      "person"
+      "bicycle"
     ],
     "missing_areas": [
-      2695,
-      3699
+      2695
     ],
-    "extra_classes": [
-      "person"
-    ],
+    "extra_classes": [],
     "weak_scores": [
       0.7
     ]
@@ -130,21 +136,18 @@
     "image": "reports/pairs/06_000000292456.jpg",
     "order": 6,
     "matched": 2,
-    "extra": 2,
-    "missing": 2,
+    "extra": 0,
+    "missing": 0,
     "weak": 0,
-    "missing_classes": [
-      "person",
-      "person"
+    "split": 2,
+    "split_scores": [
+      0.29,
+      0.28
     ],
-    "missing_areas": [
-      5699,
-      2139
-    ],
-    "extra_classes": [
-      "person",
-      "person"
-    ],
+    "split_class_mismatch": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
     "weak_scores": []
   },
   {
@@ -155,6 +158,9 @@
     "extra": 0,
     "missing": 3,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [
       "bicycle",
       "bicycle",
@@ -173,18 +179,17 @@
     "image": "reports/pairs/08_000000256941.jpg",
     "order": 8,
     "matched": 1,
-    "extra": 1,
-    "missing": 1,
+    "extra": 0,
+    "missing": 0,
     "weak": 1,
-    "missing_classes": [
-      "bicycle"
+    "split": 1,
+    "split_scores": [
+      0.24
     ],
-    "missing_areas": [
-      9508
-    ],
-    "extra_classes": [
-      "bicycle"
-    ],
+    "split_class_mismatch": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
     "weak_scores": [
       0.66
     ]
@@ -194,18 +199,17 @@
     "image": "reports/pairs/09_000000013177.jpg",
     "order": 9,
     "matched": 2,
-    "extra": 1,
-    "missing": 1,
+    "extra": 0,
+    "missing": 0,
     "weak": 0,
-    "missing_classes": [
-      "bicycle"
+    "split": 1,
+    "split_scores": [
+      0.37
     ],
-    "missing_areas": [
-      13846
-    ],
-    "extra_classes": [
-      "motorcycle"
-    ],
+    "split_class_mismatch": 1,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
     "weak_scores": []
   },
   {
@@ -216,6 +220,9 @@
     "extra": 1,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [
@@ -233,6 +240,9 @@
     "extra": 1,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [
@@ -250,6 +260,9 @@
     "extra": 0,
     "missing": 1,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [
       "person"
     ],
@@ -266,18 +279,17 @@
     "image": "reports/pairs/13_000000458223.jpg",
     "order": 13,
     "matched": 1,
-    "extra": 1,
-    "missing": 1,
+    "extra": 0,
+    "missing": 0,
     "weak": 0,
-    "missing_classes": [
-      "bicycle"
+    "split": 1,
+    "split_scores": [
+      0.48
     ],
-    "missing_areas": [
-      997
-    ],
-    "extra_classes": [
-      "bicycle"
-    ],
+    "split_class_mismatch": 0,
+    "missing_classes": [],
+    "missing_areas": [],
+    "extra_classes": [],
     "weak_scores": []
   },
   {
@@ -288,6 +300,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -303,6 +318,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -318,6 +336,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -333,6 +354,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -348,6 +372,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -363,6 +390,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 1,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -378,6 +408,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -391,6 +424,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -404,6 +440,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -417,6 +456,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -430,6 +472,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],
@@ -443,6 +488,9 @@
     "extra": 0,
     "missing": 0,
     "weak": 0,
+    "split": 0,
+    "split_scores": [],
+    "split_class_mismatch": 0,
     "missing_classes": [],
     "missing_areas": [],
     "extra_classes": [],

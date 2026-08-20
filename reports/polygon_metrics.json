@@ -8,6 +8,12 @@
   "mismatching_label": 0,
   "missing_annotation": 24,
   "extra_annotation": 13,
+  "split_pairs": 8,
+  "split_pairs_mean_iou": 0.35755725214395334,
+  "split_class_mismatch": 1,
+  "split_floor": 0.1,
+  "missing_after_split": 16,
+  "extra_after_split": 5,
   "error_rate": 0.46835443037974683,
   "mean_mask_iou": 0.8401822881220413,
   "mean_dice": 0.9098712842065995,
@@ -84,6 +90,9 @@
     ],
     "missing:truck": [
       "000000007386.jpg"
+    ],
+    "split:bicycle->motorcycle": [
+      "000000013177.jpg"
     ],
     "extra:motorcycle": [
       "000000013177.jpg",

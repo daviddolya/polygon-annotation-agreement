@@ -30,6 +30,12 @@ def existing_notes(path: Path) -> dict[str, str]:
 def facts(entry: dict) -> str:
     """Строка фактов под заголовком кадра — генерируется, правке не подлежит."""
     bits = [f"сопоставлено {entry['matched']}"]
+    if entry.get("split"):
+        scores = entry["split_scores"]
+        tail = (f", из них {entry['split_class_mismatch']} с другим классом"
+                if entry.get("split_class_mismatch") else "")
+        bits.append(f"разорванных пар {entry['split']} "
+                    f"(IoU {min(scores):.2f}–{max(scores):.2f}{tail})")
     if entry["missing"]:
         classes = ", ".join(sorted(set(entry["missing_classes"])))
         areas = entry["missing_areas"]
@@ -40,7 +46,7 @@ def facts(entry: dict) -> str:
     if entry["weak"]:
         scores = entry["weak_scores"]
         bits.append(f"слабых пар {entry['weak']} (IoU {min(scores):.2f}–{max(scores):.2f})")
-    if not (entry["missing"] or entry["extra"] or entry["weak"]):
+    if not (entry["missing"] or entry["extra"] or entry["weak"] or entry.get("split")):
         bits.append("расхождений нет")
     return " · ".join(bits)
 
@@ -88,8 +94,24 @@ def head(m: dict) -> str:
 Ширина полосы для Boundary IoU — {m['boundary_ratio']:.0%} диагонали кадра
 ([arXiv:2103.16562](https://arxiv.org/abs/2103.16562)).
 
+**Разложение пропусков и лишних.** Из {m['missing_annotation']} пропущенных
+и {m['extra_annotation']} лишних объектов {m['split_pairs']} случаев — это
+**один объект, посчитанный дважды**: он размечен обеими сторонами, но контуры
+разошлись сильнее порога, пара не сматчилась и распалась на пропуск плюс лишнее.
+Средний mask IoU в таких парах {m['split_pairs_mean_iou']:.2f}, крайний случай — 0.48
+при пороге 0.50. За их вычетом остаётся **пропущено {m['missing_after_split']},
+лишних {m['extra_after_split']}**.
+
+Порог при этом остаётся 0.5 и метрика выше не пересчитывается: подбирать порог под
+результат нельзя, его называют. Разорванной парой считается перекрытие выше
+mask IoU {m['split_floor']} — ниже начинаются случайные пересечения мелкого объекта
+с чужим крупным контуром.
+
 `kappa {m['cohens_kappa']:.3f}` — число вырожденное, а не достижение: среди
-сопоставленных пар ни одной ошибки класса, считать согласие не на чем.
+сопоставленных пар ни одной ошибки класса, считать согласие не на чем. При этом
+ошибка класса в партии есть: {m['split_class_mismatch']} — `bicycle` в эталоне против
+`motorcycle` у меня, mask IoU 0.37. В kappa она не попала именно потому, что пара
+разорвана порогом, и это ограничение метрики, а не отсутствие ошибки.
 
 | класс | сопоставлено | пропущено | лишних | mask IoU | Boundary IoU |
 |---|---|---|---|---|---|
@@ -109,6 +131,7 @@ def head(m: dict) -> str:
 | оранжевый контур | своя разметка |
 | красная рамка, `missed` / `extra` | объект есть только у одной стороны |
 | янтарная рамка, `IoU 0.NN` | пара нашлась, но контур разошёлся (mask IoU ниже 0.8) |
+| фиолетовая рамка, `split` | один и тот же объект, но контуры разошлись сильнее порога 0.5 — пара разорвана, объект посчитан дважды |
 
 Подписи на картинках английские: репозиторий публичный.
 
@@ -213,15 +236,16 @@ def main() -> int:
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     notes = existing_notes(args.out)
 
-    defects = [e for e in manifest if e["missing"] or e["extra"] or e["weak"]]
+    defects = [e for e in manifest
+               if e["missing"] or e["extra"] or e["weak"] or e.get("split")]
     clean = [e for e in manifest if e not in defects]
 
     parts = [head(metrics)]
     parts += [frame_section(e, notes) for e in defects]
     if clean:
         parts.append(f"### Без расхождений\n\nЕщё {len(clean)} кадров сошлись с эталоном "
-                     f"полностью: ни пропусков, ни лишних объектов, все пары выше "
-                     f"mask IoU 0.8.\n")
+                     f"полностью: ни пропусков, ни лишних, ни разорванных "
+                     f"пар, все сопоставленные объекты выше mask IoU 0.8.\n")
         parts += [frame_section(e, notes) for e in clean]
     parts.append(tail(args.report))
 
