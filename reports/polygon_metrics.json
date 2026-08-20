@@ -1,0 +1,122 @@
+{
+  "iou_threshold": 0.5,
+  "boundary_ratio": 0.02,
+  "frames": 25,
+  "polygons_mine": 68,
+  "polygons_reference": 79,
+  "matched": 55,
+  "mismatching_label": 0,
+  "missing_annotation": 24,
+  "extra_annotation": 13,
+  "error_rate": 0.46835443037974683,
+  "mean_mask_iou": 0.8401822881220413,
+  "mean_dice": 0.9098712842065995,
+  "mean_boundary_iou": 0.6762957628322134,
+  "cohens_kappa": 1.0,
+  "per_class_mask_iou": {
+    "person": 0.8448182312793545,
+    "car": 0.9834196302488273,
+    "truck": 0.9716861855461554,
+    "bus": 0.9658312836535266,
+    "bicycle": 0.7889966722320988,
+    "motorcycle": 0.8433749612928884
+  },
+  "per_class_boundary_iou": {
+    "person": 0.7230773641697658,
+    "car": 0.7652185223725286,
+    "truck": 0.7582437657948421,
+    "bus": 0.7931768832470353,
+    "bicycle": 0.6776699049735888,
+    "motorcycle": 0.60618720094279
+  },
+  "per_class": {
+    "person": {
+      "matched": 22,
+      "extra": 3,
+      "missing": 13
+    },
+    "car": {
+      "matched": 1,
+      "missing": 1
+    },
+    "truck": {
+      "missing": 1,
+      "matched": 1
+    },
+    "bus": {
+      "extra": 2,
+      "matched": 1
+    },
+    "bicycle": {
+      "missing": 8,
+      "matched": 11,
+      "extra": 6
+    },
+    "motorcycle": {
+      "matched": 19,
+      "extra": 2,
+      "missing": 1
+    }
+  },
+  "vertices_mine": {
+    "person": 112.81818181818181,
+    "car": 92.0,
+    "truck": 117.0,
+    "bus": 63.0,
+    "bicycle": 54.27272727272727,
+    "motorcycle": 106.89473684210526
+  },
+  "vertices_reference": {
+    "person": 50.72727272727273,
+    "car": 54.0,
+    "truck": 39.0,
+    "bus": 19.0,
+    "bicycle": 32.0,
+    "motorcycle": 51.26315789473684
+  },
+  "examples": {
+    "missing:bicycle": [
+      "000000007386.jpg",
+      "000000007386.jpg",
+      "000000013177.jpg",
+      "000000070774.jpg",
+      "000000245173.jpg"
+    ],
+    "missing:truck": [
+      "000000007386.jpg"
+    ],
+    "extra:motorcycle": [
+      "000000013177.jpg",
+      "000000273551.jpg"
+    ],
+    "extra:bicycle": [
+      "000000070774.jpg",
+      "000000226903.jpg",
+      "000000245173.jpg",
+      "000000245173.jpg",
+      "000000256941.jpg"
+    ],
+    "missing:car": [
+      "000000081394.jpg"
+    ],
+    "missing:motorcycle": [
+      "000000081394.jpg"
+    ],
+    "extra:person": [
+      "000000251140.jpg",
+      "000000292456.jpg",
+      "000000292456.jpg"
+    ],
+    "missing:person": [
+      "000000251140.jpg",
+      "000000292456.jpg",
+      "000000292456.jpg",
+      "000000306893.jpg",
+      "000000306893.jpg"
+    ],
+    "extra:bus": [
+      "000000306893.jpg",
+      "000000306893.jpg"
+    ]
+  }
+}
